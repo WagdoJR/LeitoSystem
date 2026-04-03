@@ -1,5 +1,4 @@
 # LeitoSystem
-# LeitoSystem
 
 Sistema de gerenciamento de leitos hospitalares
 
