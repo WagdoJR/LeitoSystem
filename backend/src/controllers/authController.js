@@ -23,14 +23,15 @@ const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      {
-        id: user.id,
-        email: user.email,
-        nome: user.nome
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: '8h' }
-    );
+  {
+    id: user.id,
+    email: user.email,
+    nome: user.nome,
+    perfil: user.perfil
+  },
+  process.env.JWT_SECRET,
+  { expiresIn: '8h' }
+);
 
     return res.status(200).json({
       message: 'Login realizado com sucesso.',
@@ -38,7 +39,8 @@ const login = async (req, res) => {
       usuario: {
         id: user.id,
         nome: user.nome,
-        email: user.email
+        email: user.email,
+        perfil: user.perfil
       }
     });
   } catch (error) {

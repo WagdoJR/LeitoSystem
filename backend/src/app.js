@@ -4,6 +4,10 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
+const bedRoutes = require('./routes/bedRoutes');
+
+require('./models/User');
+require('./models/Bed');
 
 const app = express();
 
@@ -11,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/auth', authRoutes);
+app.use('/beds', bedRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'API do LeitoSystem funcionando.' });

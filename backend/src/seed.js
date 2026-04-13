@@ -22,7 +22,8 @@ async function seed() {
     await User.create({
       nome: 'Administrador',
       email,
-      senha: senhaHash
+      senha: senhaHash,
+      perfil: 'admin'
     });
 
     console.log('Usuário de teste criado com sucesso.');
