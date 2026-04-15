@@ -10,6 +10,20 @@ A aplicação permite autenticação de usuários e será expandida para control
 
 Este projeto foi desenvolvido como parte do Trabalho de Conclusão de Curso (TCC) em Engenharia de Software.
 
+## Funcionalidades
+
+- Autenticação de usuários
+- Controle de acesso por perfil
+- Cadastro de leitos
+- Edição de leitos
+- Exclusão de leitos
+- Listagem de leitos
+- Filtros por setor e status
+- Indicadores visuais de status:
+  - Disponível
+  - Ocupado
+  - Manutenção
+
 ## Tecnologias Utilizadas
 
 ### Backend
@@ -35,8 +49,20 @@ O sistema segue uma arquitetura full stack separada, dividida em:
 
 ```
 LeitoSystem/
+│
 ├── backend/
-└── frontend/
+│ ├── src/
+│ │ ├── controllers/
+│ │ ├── models/
+│ │ ├── routes/
+│ │ ├── middlewares/
+│ │ └── config/
+│
+├── frontend/
+│ ├── src/
+│ │ ├── pages/
+│ │ ├── services/
+│ │ └── components/
 ```
 
 ### Backend
@@ -140,7 +166,6 @@ Tabela atual:
 
 ## Próximas Funcionalidades
 
-* Cadastro de leitos
 * Cadastro de pacientes
 * Ocupação e liberação de leitos
 * Dashboard com indicadores
