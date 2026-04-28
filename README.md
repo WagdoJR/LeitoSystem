@@ -1,53 +1,44 @@
-# LeitoSystem
+LeitoSystem
 
 Sistema de gerenciamento de leitos hospitalares
 
-## Sobre o Projeto
+Sobre o Projeto
 
 O LeitoSystem é um sistema web desenvolvido com o objetivo de gerenciar leitos hospitalares de forma eficiente, organizada e transparente.
 
-A aplicação permite autenticação de usuários e será expandida para controle de leitos, pacientes e ocupação hospitalar.
+A aplicação permite autenticação de usuários, controle de leitos e pacientes, além da gestão de ocupação hospitalar.
 
 Este projeto foi desenvolvido como parte do Trabalho de Conclusão de Curso (TCC) em Engenharia de Software.
 
-## Funcionalidades
-
-* Autenticação de usuários
-* Controle de acesso por perfil
-* Cadastro de leitos
-* Edição de leitos
-* Exclusão de leitos
-* Listagem de leitos
-* Filtros por setor e status
-* Indicadores visuais de status:
-
-  * Disponível
-  * Ocupado
-  * Manutenção
-
-## Tecnologias Utilizadas
-
-### Backend
-
-* Node.js
-* Express
-* Sequelize (ORM)
-* PostgreSQL
-* JSON Web Token (JWT)
-* Bcrypt (criptografia de senha)
-
-### Frontend
-
-* React
-* Vite
-* Axios
-* React Router DOM
-
-## Arquitetura do Projeto
+Funcionalidades
+Autenticação de usuários
+Controle de acesso por perfil (admin)
+Gestão de leitos (CRUD)
+Gestão de pacientes (CRUD)
+Ocupação de leitos com pacientes
+Liberação de leitos
+Filtros por setor e status
+Indicadores visuais de status:
+Disponível
+Ocupado
+Manutenção
+Tecnologias Utilizadas
+Backend
+Node.js
+Express
+Sequelize (ORM)
+PostgreSQL
+JSON Web Token (JWT)
+Bcrypt (criptografia de senha)
+Frontend
+React
+Vite
+Axios
+React Router DOM
+Arquitetura do Projeto
 
 O sistema segue uma arquitetura full stack separada, dividida em:
 
-```
 LeitoSystem/
 │
 ├── backend/
@@ -63,156 +54,127 @@ LeitoSystem/
 │ │ ├── pages/
 │ │ ├── services/
 │ │ └── components/
-```
-
-### Backend
-
-* API REST responsável pela autenticação e regras de negócio
-* Banco de dados PostgreSQL
-* Estrutura em camadas (controllers, models, routes, middlewares)
-
-### Frontend
-
-* Interface em React
-* Consumo da API via Axios
-* Gerenciamento de rotas com React Router
-
-## Funcionalidades Implementadas
-
-* Tela de login
-* Autenticação com JWT
-* Criptografia de senha com bcrypt
-* Proteção de rotas no backend
-* Dashboard com dados do usuário autenticado
-* Gestão completa de leitos (CRUD)
-
-## Credenciais de Teste
-
-```
+Backend
+API REST responsável pela autenticação e regras de negócio
+Banco de dados PostgreSQL
+Estrutura em camadas (controllers, models, routes, middlewares)
+Relacionamento entre entidades (Leitos ↔ Pacientes)
+Frontend
+Interface em React
+Consumo da API via Axios
+Gerenciamento de rotas com React Router
+Controle de sessão via localStorage
+Funcionalidades Implementadas
+Tela de login
+Autenticação com JWT
+Criptografia de senha com bcrypt
+Proteção de rotas no backend
+Dashboard inicial
+Gestão completa de leitos:
+Cadastro
+Edição
+Exclusão
+Listagem
+Filtros
+Gestão de pacientes:
+Cadastro
+Listagem
+Integração entre pacientes e leitos:
+Ocupação de leito
+Liberação de leito
+Credenciais de Teste
 Email: admin@leitosystem.com
 Senha: 123456
-```
-
-## Como executar o projeto
-
-### Pré-requisitos
-
-* Node.js instalado
-* NPM ou Yarn
-* PostgreSQL instalado
-
-### Backend
-
-```
+Como executar o projeto
+Pré-requisitos
+Node.js instalado
+NPM ou Yarn
+PostgreSQL instalado
+Backend
 cd backend
 npm install
-```
 
-Crie um arquivo `.env` dentro da pasta backend:
+Crie um arquivo .env dentro da pasta backend:
 
-```
 DB_NAME=leitosystem
 DB_USER=postgres
-DB_PASSWORD=
+DB_PASSWORD=sua_senha
 DB_HOST=localhost
 DB_PORT=5432
-JWT_SECRET=
-```
+JWT_SECRET=sua_chave_secreta
 
-Crie o banco de dados no PostgreSQL com o nome:
+Crie o banco de dados no PostgreSQL:
 
-```
 leitosystem
-```
 
-Execute o seed:
+Execute o seed (cria usuário admin):
 
-```
 npm run seed
-```
 
 Inicie o backend:
 
-```
 npm run dev
-```
 
 A API será iniciada em:
 
-```
 http://localhost:3001
-```
-
----
-
-### Frontend
-
-```
+Frontend
 cd frontend
 npm install
 npm run dev
-```
 
 A aplicação será iniciada em:
 
-```
 http://localhost:5173
-```
+Fluxo de Autenticação
+O usuário insere e-mail e senha
+O frontend envia a requisição para o backend
+O backend valida as credenciais no banco de dados
+A senha é verificada com bcrypt
+Um token JWT é gerado
+O token é armazenado no navegador (localStorage)
+Rotas protegidas utilizam o token para autenticação
+Banco de Dados
 
-## Fluxo de Autenticação
+O sistema utiliza PostgreSQL como banco de dados relacional.
 
-1. O usuário insere e-mail e senha
-2. O frontend envia a requisição para o backend
-3. O backend valida as credenciais no banco de dados
-4. A senha é verificada com bcrypt
-5. Um token JWT é gerado
-6. O token é armazenado no navegador (localStorage)
-7. Rotas protegidas utilizam o token para autenticação
+A conexão é feita via Sequelize ORM e as tabelas são criadas automaticamente.
 
-## Banco de Dados
-
-O sistema utiliza PostgreSQL como banco de dados relacional, executado em servidor local.
-
-A conexão é realizada através do Sequelize ORM.
-
-As tabelas são criadas automaticamente ao iniciar o sistema ou executar o seed.
-
-### Estrutura atual
-
-#### Tabela: users
-
-* id
-* nome
-* email
-* senha
-* perfil
-
-#### Tabela: beds
-
-* id
-* numero
-* setor
-* tipo
-* status
-
----
-
-## Próximas Funcionalidades
-
-* Cadastro de pacientes
-* Ocupação e liberação de leitos
-* Dashboard com indicadores
-* Controle de níveis de acesso (admin, enfermagem, recepção)
-
-## Objetivo do Projeto
+Estrutura atual
+Tabela: users
+id
+nome
+email
+senha
+perfil
+Tabela: patients
+id
+nome
+cpf
+dataNascimento
+telefone
+Tabela: beds
+id
+numero
+setor
+tipo
+status
+patientId (relacionamento com paciente)
+Próximas Funcionalidades
+Dashboard com indicadores em tempo real
+Histórico de ocupação de leitos
+Cadastro completo de internações
+Controle de perfis (enfermagem, recepção)
+Notificações de disponibilidade de leitos
+Objetivo do Projeto
 
 Desenvolver uma solução que auxilie instituições de saúde no gerenciamento de leitos, reduzindo gargalos, aumentando a eficiência operacional e melhorando a tomada de decisão.
 
-## Autor
+Autor
 
 Wagdo Junior, Windson e Diego
 Estudantes de Engenharia de Software
 
-## Licença
+Licença
 
 Este projeto é de uso acadêmico.
