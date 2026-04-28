@@ -34,3 +34,7 @@ sequelize.sync()
   .catch((error) => {
     console.error('Erro ao conectar no banco:', error);
   });
+
+  const patientRoutes = require('./routes/patientRoutes');
+
+app.use('/patients', patientRoutes);

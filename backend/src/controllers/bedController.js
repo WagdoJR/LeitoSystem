@@ -109,9 +109,51 @@ const deletarLeito = async (req, res) => {
   }
 };
 
+const ocupar = async (req, res) => {
+  try {
+    const { patientId } = req.body;
+
+    const bed = await Bed.findByPk(req.params.id);
+
+    if (!bed) {
+      return res.status(404).json({ message: 'Leito não encontrado' });
+    }
+
+    bed.status = 'ocupado';
+    bed.patientId = patientId;
+
+    await bed.save();
+
+    res.json(bed);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const liberar = async (req, res) => {
+  try {
+    const bed = await Bed.findByPk(req.params.id);
+
+    if (!bed) {
+      return res.status(404).json({ message: 'Leito não encontrado' });
+    }
+
+    bed.status = 'disponivel';
+    bed.patientId = null;
+
+    await bed.save();
+
+    res.json(bed);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   listarLeitos,
   criarLeito,
   atualizarLeito,
-  deletarLeito
+  deletarLeito,
+  ocupar,
+  liberar
 };

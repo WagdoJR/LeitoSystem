@@ -209,6 +209,14 @@ function Beds() {
           <span style={styles.userText}>
             {usuario ? `Olá, ${usuario.nome} (${usuario.perfil})` : 'Usuário'}
           </span>
+
+          <button
+            onClick={() => navigate('/patients')}
+            style={styles.navButton}
+          >
+            Ir para Pacientes
+          </button>
+
           <button onClick={handleLogout} style={styles.logoutButton}>
             Sair
           </button>
@@ -436,6 +444,16 @@ const styles = {
     borderRadius: '8px',
     cursor: 'pointer'
   },
+
+  navButton: {
+    backgroundColor: '#16a34a',
+    border: 'none',
+    color: '#ffffff',
+    padding: '10px 16px',
+    borderRadius: '8px',
+    cursor: 'pointer'
+  },
+
   main: {
     display: 'grid',
     gridTemplateColumns: '1fr 2fr',

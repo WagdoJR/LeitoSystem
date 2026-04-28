@@ -27,9 +27,20 @@ const Bed = sequelize.define('Bed', {
     validate: {
       isIn: [['disponivel', 'ocupado', 'manutencao']]
     }
+  },
+  patientId: {
+    type: DataTypes.INTEGER,
+    allowNull: true
   }
 }, {
   tableName: 'beds'
+});
+
+const Patient = require('./Patient');
+
+Bed.belongsTo(Patient, {
+  foreignKey: 'patientId',
+  as: 'patient'
 });
 
 module.exports = Bed;
