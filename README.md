@@ -213,6 +213,11 @@ Desenvolver uma solução que auxilie instituições de saúde no gerenciamento 
 Wagdo Junior, Windson e Diego
 Estudantes de Engenharia de Software
 
+## Orientadores
+Eduardo Dias Pereira
+Vinicius Siqueira
+Renato Luan
+
 ## Licença
 
 Este projeto é de uso acadêmico.
