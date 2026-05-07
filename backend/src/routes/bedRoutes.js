@@ -14,4 +14,7 @@ router.delete('/:id', authMiddleware, adminMiddleware, controller.deletarLeito);
 router.put('/:id/ocupar', authMiddleware, controller.ocupar);
 router.put('/:id/liberar', authMiddleware, controller.liberar);
 
+
+router.get('/dashboard', authMiddleware, controller.getDashboard);
+
 module.exports = router;

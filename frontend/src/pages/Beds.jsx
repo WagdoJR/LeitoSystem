@@ -217,6 +217,13 @@ function Beds() {
             Ir para Pacientes
           </button>
 
+          <button
+            onClick={() => navigate('/dashboard')}
+            style={styles.navButton}
+          >
+            Dashboard
+          </button>
+
           <button onClick={handleLogout} style={styles.logoutButton}>
             Sair
           </button>

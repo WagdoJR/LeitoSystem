@@ -3,35 +3,45 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
 function Dashboard() {
-  const [usuario, setUsuario] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
+  const [dados, setDados] = useState(null);
+  const [erro, setErro] = useState('');
+  const [carregando, setCarregando] = useState(true);
 
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
     if (!token) {
       navigate('/');
       return;
     }
 
-    const buscarPerfil = async () => {
-      try {
-        const response = await api.get('/auth/perfil', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+    carregarDashboard();
+  }, []);
 
-        setUsuario(response.data);
-      } catch (error) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('usuario');
-        navigate('/');
+  const carregarDashboard = async () => {
+    try {
+      setCarregando(true);
+      setErro('');
+
+      const response = await api.get('/beds/dashboard', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      setDados(response.data);
+    } catch (error) {
+      setErro('Erro ao carregar dashboard');
+
+      if (error.response?.status === 401) {
+        handleLogout();
       }
-    };
-
-    buscarPerfil();
-  }, [navigate]);
+    } finally {
+      setCarregando(false);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -39,21 +49,62 @@ function Dashboard() {
     navigate('/');
   };
 
+  if (carregando) {
+    return <p style={styles.loading}>Carregando dashboard...</p>;
+  }
+
   return (
     <div style={styles.container}>
-      <div style={styles.card}>
-        <h1>Bem-vindo ao LeitoSystem</h1>
-        {usuario && (
-          <>
-            <p><strong>Nome:</strong> {usuario.nome}</p>
-            <p><strong>E-mail:</strong> {usuario.email}</p>
-          </>
-        )}
+      <header style={styles.header}>
+        <h1 style={styles.title}>Dashboard</h1>
 
-        <button onClick={handleLogout} style={styles.button}>
-          Sair
-        </button>
-      </div>
+        <div style={styles.actions}>
+          <button
+            onClick={() => navigate('/beds')}
+            style={styles.navButton}
+          >
+            Leitos
+          </button>
+
+          <button
+            onClick={() => navigate('/patients')}
+            style={styles.navButton}
+          >
+            Pacientes
+          </button>
+
+          <button
+            onClick={handleLogout}
+            style={styles.logoutButton}
+          >
+            Sair
+          </button>
+        </div>
+      </header>
+
+      {erro && <p style={styles.error}>{erro}</p>}
+
+      {dados && (
+        <div style={styles.grid}>
+          <Card title="Total de Leitos" value={dados.total} />
+          <Card title="Disponíveis" value={dados.disponiveis} />
+          <Card title="Ocupados" value={dados.ocupados} />
+          <Card title="Manutenção" value={dados.manutencao} />
+          <Card
+            title="Taxa de Ocupação"
+            value={`${dados.taxaOcupacao}%`}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Card({ title, value }) {
+  return (
+    <div style={styles.card}>
+      <h3 style={styles.cardTitle}>{title}</h3>
+      <p style={styles.cardValue}>{value}</p>
     </div>
   );
 }
@@ -61,26 +112,80 @@ function Dashboard() {
 const styles = {
   container: {
     minHeight: '100vh',
+    backgroundColor: '#f8fafc',
+    padding: '24px'
+  },
+
+  header: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    background: '#f8fafc'
+    marginBottom: '24px',
+    flexWrap: 'wrap',
+    gap: '12px'
   },
-  card: {
-    background: '#fff',
-    padding: '32px',
-    borderRadius: '16px',
-    boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
-    textAlign: 'center'
+
+  title: {
+    margin: 0
   },
-  button: {
-    marginTop: '20px',
-    padding: '12px 20px',
+
+  actions: {
+    display: 'flex',
+    gap: '10px',
+    flexWrap: 'wrap'
+  },
+
+  navButton: {
+    backgroundColor: '#2563eb',
+    color: '#fff',
     border: 'none',
+    padding: '10px 14px',
     borderRadius: '8px',
+    cursor: 'pointer'
+  },
+
+  logoutButton: {
     backgroundColor: '#dc2626',
     color: '#fff',
+    border: 'none',
+    padding: '10px 14px',
+    borderRadius: '8px',
     cursor: 'pointer'
+  },
+
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+    gap: '16px'
+  },
+
+  card: {
+    backgroundColor: '#ffffff',
+    padding: '20px',
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+    textAlign: 'center'
+  },
+
+  cardTitle: {
+    margin: 0,
+    marginBottom: '8px',
+    color: '#334155'
+  },
+
+  cardValue: {
+    fontSize: '26px',
+    fontWeight: 'bold',
+    color: '#0f172a'
+  },
+
+  error: {
+    color: '#b91c1c',
+    marginBottom: '12px'
+  },
+
+  loading: {
+    padding: '24px'
   }
 };
 

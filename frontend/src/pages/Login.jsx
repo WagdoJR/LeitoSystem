@@ -21,7 +21,7 @@ function Login() {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('usuario', JSON.stringify(response.data.usuario));
 
-      navigate('/beds');
+      navigate('/dashboard');
     } catch (error) {
       setMensagem(
         error.response?.data?.message || 'Erro ao realizar login.'

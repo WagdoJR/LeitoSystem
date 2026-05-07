@@ -149,11 +149,46 @@ const liberar = async (req, res) => {
   }
 };
 
+const getDashboard = async (req, res) => {
+  try {
+    const total = await Bed.count();
+
+    const disponiveis = await Bed.count({
+      where: { status: 'disponivel' }
+    });
+
+    const ocupados = await Bed.count({
+      where: { status: 'ocupado' }
+    });
+
+    const manutencao = await Bed.count({
+      where: { status: 'manutencao' }
+    });
+
+    const taxaOcupacao =
+      total > 0 ? ((ocupados / total) * 100).toFixed(2) : 0;
+
+    return res.json({
+      total,
+      disponiveis,
+      ocupados,
+      manutencao,
+      taxaOcupacao
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Erro ao carregar dashboard',
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
   listarLeitos,
   criarLeito,
   atualizarLeito,
   deletarLeito,
   ocupar,
-  liberar
+  liberar,
+  getDashboard
 };
