@@ -125,7 +125,7 @@ Senha: 123456
 
 ---
 
-###  Backend
+##  Backend
 
 bash
 cd backend
@@ -150,7 +150,7 @@ npm run dev
 API disponível em:
 http://localhost:3001
 
-### Front
+## Front
 cd frontend
 npm install
 npm run dev
@@ -168,9 +168,9 @@ Token é armazenado no navegador
 Rotas protegidas utilizam o token
 
 
-### Banco de Dados
+## Banco de Dados
 
-### Tabela: users
+# Tabela: users
 id
 nome
 email
