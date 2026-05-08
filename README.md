@@ -49,7 +49,7 @@ Este projeto foi desenvolvido como parte do **Trabalho de Conclusão de Curso (T
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 ### Backend
 - Node.js
@@ -116,81 +116,108 @@ LeitoSystem/
 Email: admin@leitosystem.com
 Senha: 123456
 
-## Como Executar o Projeto
+##  Como executar o projeto
 
-### Pré-requisitos
-- Node.js
+###  Pré-requisitos
+
+- Node.js instalado
 - NPM ou Yarn
-- PostgreSQL
+- PostgreSQL instalado
 
 ---
 
 ##  Backend
 
-bash
+```bash
 cd backend
 npm install
-crie um arquivo .env
+```
+
+Crie um arquivo `.env` dentro da pasta **backend**:
+
+```env
 DB_NAME=leitosystem
 DB_USER=postgres
 DB_PASSWORD=
 DB_HOST=localhost
 DB_PORT=5432
 JWT_SECRET=sua_chave_secreta
+```
 
-Crie o banco no PostgreSQL
+Crie o banco de dados no PostgreSQL:
+
+```bash
 leitosystem
+```
 
-Execute o seed
+Execute o seed:
+
+```bash
 npm run seed
+```
 
-inicie o servidor
+Inicie o servidor:
+
+```bash
 npm run dev
+```
 
 API disponível em:
-http://localhost:3001
 
-## Front
+```
+http://localhost:3001
+```
+
+---
+
+##  Frontend
+
+```bash
 cd frontend
 npm install
 npm run dev
+```
 
 Aplicação disponível em:
+
+```
 http://localhost:5173
+```
 
-### Fluxo de Autenticação
-Usuário insere email e senha
-Frontend envia requisição para API
-Backend valida credenciais
-Senha é verificada com bcrypt
-Token JWT é gerado
-Token é armazenado no navegador
-Rotas protegidas utilizam o token
+---
 
+##  Fluxo de Autenticação
 
-## Banco de Dados
+1. O usuário insere e-mail e senha  
+2. O frontend envia a requisição para o backend  
+3. O backend valida as credenciais no banco de dados  
+4. A senha é verificada com bcrypt  
+5. Um token JWT é gerado  
+6. O token é armazenado no navegador (localStorage)  
+7. Rotas protegidas utilizam o token para autenticação  
 
-# Tabela: users
-id
-nome
-email
-senha
-perfil
+---
 
-### Tabela: beds
-id
-numero
-setor
-tipo
-status
-patientId (relacionamento)
+##  Banco de Dados
 
-### Tabela: patients
-id
-nome
-idade
-documento
-telefone
+O sistema utiliza PostgreSQL como banco de dados relacional.
+
+###  Tabela: users
+
+- id  
+- nome  
+- email  
+- senha  
+- perfil  
+
+###  Tabela: beds
+
+- id  
+- numero  
+- setor  
+- tipo  
+- status  
+- patientId (relacionamento)  
 
 
 ### Objetivo do Projeto
