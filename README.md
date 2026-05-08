@@ -69,22 +69,25 @@ Este projeto foi desenvolvido como parte do **Trabalho de Conclusão de Curso (T
 
 ##  Arquitetura do Projeto
 
+O sistema segue uma arquitetura full stack separada:
+
+```bash
 LeitoSystem/
 │
 ├── backend/
-│ ├── src/
-│ │ ├── controllers/
-│ │ ├── models/
-│ │ ├── routes/
-│ │ ├── middlewares/
-│ │ └── config/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── middlewares/
+│   │   └── config/
 │
 ├── frontend/
-│ ├── src/
-│ │ ├── pages/
-│ │ ├── services/
-│ │ └── components/
-
+│   ├── src/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   └── components/
+```
 
 ### Backend
 - API REST
@@ -114,7 +117,9 @@ LeitoSystem/
 
 ##  Credenciais de Teste
 Email: admin@leitosystem.com
+
 Senha: 123456
+
 
 ##  Como executar o projeto
 
