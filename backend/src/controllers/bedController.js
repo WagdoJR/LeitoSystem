@@ -149,6 +149,7 @@ const liberar = async (req, res) => {
   }
 };
 
+//Funcao contar todos os leitos, status e taxa de ocupacao
 const getDashboard = async (req, res) => {
   try {
     const total = await Bed.count();
