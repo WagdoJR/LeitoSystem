@@ -9,6 +9,9 @@ function Dashboard() {
   const [erro, setErro] = useState('');
   const [carregando, setCarregando] = useState(true);
 
+  const [filtroSelecionado, setFiltroSelecionado] = useState(null);
+  const [leitos, setLeitos] = useState([]);
+
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -43,6 +46,27 @@ function Dashboard() {
     }
   };
 
+  const carregarLeitos = async (status) => {
+    try {
+      const response = await api.get('/beds', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      let filtrados = response.data;
+
+      if (status) {
+        filtrados = filtrados.filter((b) => b.status === status);
+      }
+
+      setLeitos(filtrados);
+      setFiltroSelecionado(status);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
@@ -59,24 +83,15 @@ function Dashboard() {
         <h1 style={styles.title}>Dashboard</h1>
 
         <div style={styles.actions}>
-          <button
-            onClick={() => navigate('/beds')}
-            style={styles.navButton}
-          >
+          <button onClick={() => navigate('/beds')} style={styles.navButton}>
             Leitos
           </button>
 
-          <button
-            onClick={() => navigate('/patients')}
-            style={styles.navButton}
-          >
+          <button onClick={() => navigate('/patients')} style={styles.navButton}>
             Pacientes
           </button>
 
-          <button
-            onClick={handleLogout}
-            style={styles.logoutButton}
-          >
+          <button onClick={handleLogout} style={styles.logoutButton}>
             Sair
           </button>
         </div>
@@ -86,23 +101,88 @@ function Dashboard() {
 
       {dados && (
         <div style={styles.grid}>
-          <Card title="Total de Leitos" value={dados.total} />
-          <Card title="Disponíveis" value={dados.disponiveis} />
-          <Card title="Ocupados" value={dados.ocupados} />
-          <Card title="Manutenção" value={dados.manutencao} />
+          <Card
+            title="Total de Leitos"
+            value={dados.total}
+            onClick={() => carregarLeitos(null)}
+            ativo={filtroSelecionado === null}
+          />
+
+          <Card
+            title="Disponíveis"
+            value={dados.disponiveis}
+            onClick={() => carregarLeitos('disponivel')}
+            ativo={filtroSelecionado === 'disponivel'}
+          />
+
+          <Card
+            title="Ocupados"
+            value={dados.ocupados}
+            onClick={() => carregarLeitos('ocupado')}
+            ativo={filtroSelecionado === 'ocupado'}
+          />
+
+          <Card
+            title="Manutenção"
+            value={dados.manutencao}
+            onClick={() => carregarLeitos('manutencao')}
+            ativo={filtroSelecionado === 'manutencao'}
+          />
+
           <Card
             title="Taxa de Ocupação"
             value={`${dados.taxaOcupacao}%`}
           />
         </div>
       )}
+
+      {/* LISTA DE LEITOS */}
+      {filtroSelecionado !== null && (
+        <div style={styles.listaContainer}>
+          <h2 style={styles.subTitle}>
+            Leitos {filtroSelecionado}
+          </h2>
+
+          {leitos.length === 0 ? (
+            <p>Nenhum leito encontrado.</p>
+          ) : (
+            <table style={styles.table}>
+              <thead>
+                <tr>
+                  <th style={styles.th}>Número</th>
+                  <th style={styles.th}>Setor</th>
+                  <th style={styles.th}>Tipo</th>
+                  <th style={styles.th}>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leitos.map((bed) => (
+                  <tr key={bed.id}>
+                    <td style={styles.td}>{bed.numero}</td>
+                    <td style={styles.td}>{bed.setor}</td>
+                    <td style={styles.td}>{bed.tipo}</td>
+                    <td style={styles.td}>{bed.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      )}
     </div>
   );
 }
 
-function Card({ title, value }) {
+function Card({ title, value, onClick, ativo }) {
   return (
-    <div style={styles.card}>
+    <div
+      style={{
+        ...styles.card,
+        border: ativo ? '2px solid #2563eb' : 'none',
+        cursor: onClick ? 'pointer' : 'default'
+      }}
+      onClick={onClick}
+    >
       <h3 style={styles.cardTitle}>{title}</h3>
       <p style={styles.cardValue}>{value}</p>
     </div>
@@ -177,6 +257,34 @@ const styles = {
     fontSize: '26px',
     fontWeight: 'bold',
     color: '#0f172a'
+  },
+
+  listaContainer: {
+    marginTop: '32px',
+    backgroundColor: '#fff',
+    padding: '20px',
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+  },
+
+  subTitle: {
+    marginBottom: '16px'
+  },
+
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse'
+  },
+
+  th: {
+    textAlign: 'left',
+    padding: '10px',
+    borderBottom: '1px solid #ccc'
+  },
+
+  td: {
+    padding: '10px',
+    borderBottom: '1px solid #eee'
   },
 
   error: {
